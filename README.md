@@ -13,13 +13,19 @@ by Christopher Okhravi.
 ```
 src/
 ├── main/java/com/pokemon/
-│   ├── battle/       # Battle orchestration and Battler entity
-│   ├── move/         # Move hierarchy: Tackle, Cascade, Combo...
-│   ├── condition/    # Preconditions: Logical, Probabilistic, Battler, Number
-│   ├── effect/       # Effects applied on success: Damage, Status, StatChange
-│   └── number/       # Abstract numeric values: Fixed, Random, Combined
+│   ├── action/               # Everything that can happen in a turn
+│   │   ├── condition/        # Preconditions: Logical, Probabilistic, Battler, Number
+│   │   ├── effect/           # Effects applied on success: Damage, Status, StatChange
+│   │   ├── move/             # Move hierarchy: Tackle, Cascade, Combo...
+│   │   ├── number/           # Abstract numeric values: Fixed, Random, Combined
+│   │   └── Action.java       # Action supertype
+│   ├── battle/               # Battle orchestration
+│   │   ├── Battle.java       # Manages the battle flow
+│   │   ├── Turn.java         # Represents a single turn
+│   │   └── EndCondition.java # Determines when the battle ends
+│   └── Main.java
 └── test/java/com/pokemon/
-    └── ...           # mirrors main structure
+    └── ...                   # mirrors main structure
 ```
 
 ## Requirements
