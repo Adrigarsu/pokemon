@@ -1,6 +1,7 @@
 package com.pokemon.pokemon;
 
 import com.pokemon.action.effect.Paralysis;
+import com.pokemon.action.move.MoveInterface;
 import com.pokemon.pokemon.status.StatusInterface;
 import com.pokemon.pokemon.type.Type;
 
@@ -10,12 +11,24 @@ import java.util.List;
 public class Pokemon {
 
     private String name;
+    private String nickname;
 
     private Type primaryType;
     private Type secondaryType;
 
+    List<MoveInterface> attacks;
+
     // Stats
     private int exp;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
     private int level;
 
     private int HP;
@@ -35,6 +48,12 @@ public class Pokemon {
     //Combat info
     private boolean death;
     private List<StatusInterface> statusList = new ArrayList<StatusInterface>();
+
+    // for test while development
+    public Pokemon (String name){
+        this.name = name;
+        this.HP = 5;
+    }
 
     public boolean isDeath() {
         return death;
@@ -204,5 +223,27 @@ public class Pokemon {
 
     public void addStatus(StatusInterface status) {
         statusList.add(status);
+    }
+
+    public List<MoveInterface> getAttacks() {
+        return attacks;
+
+    }
+
+    public String getMenuPrint() {
+        return this.name + " " + getTypesPrint() + " " + getHPPrint()  ;
+    }
+
+    private String getTypesPrint() {
+        if(hasSecondaryType()){
+            return primaryType.toString() + "-" + secondaryType.toString();
+        }
+        else {
+            return primaryType.toString();
+        }
+    }
+
+    private String getHPPrint() {
+        return "( "+ getHP() + "HP/"+ getMaxHP() +"HP )";
     }
 }

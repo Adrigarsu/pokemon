@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Battler {
 
+    private String name;
     private List<Pokemon> pokemons = new ArrayList<Pokemon>(6);
     private Pokemon activePokemon;
     private Inventory inventory;
@@ -43,5 +44,9 @@ public class Battler {
 
     public void setActivePokemon(Pokemon activePokemon) {
         this.activePokemon = activePokemon;
+    }
+
+    public String getName() {
+        return name;
     }
 }

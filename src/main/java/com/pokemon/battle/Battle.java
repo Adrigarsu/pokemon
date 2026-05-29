@@ -49,4 +49,8 @@ public class Battle {
     public void setEndCondition(EndCondition endCondition) {
         this.endCondition = endCondition;
     }
+
+    public void surrender(){
+        endCondition.surrender(this.attacker);
+    }
 }

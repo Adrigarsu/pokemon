@@ -1,6 +1,8 @@
 package com.pokemon.action.number;
 
-public class WeightedEntry {
+import com.pokemon.battle.Battle;
+
+public class WeightedEntry implements NumberInterface {
 
     private double probability;
     private double value;
@@ -24,5 +26,10 @@ public class WeightedEntry {
 
     public void setValue(double value) {
         this.value = value;
+    }
+
+    @Override
+    public double evaluate(Battle battle) {
+        return 0;
     }
 }

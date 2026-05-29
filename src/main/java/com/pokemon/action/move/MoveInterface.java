@@ -6,4 +6,6 @@ import com.pokemon.battle.Battle;
 public interface MoveInterface extends Action {
 
     void execute(Battle battle);
+
+    String getMenuPrint();
 }
