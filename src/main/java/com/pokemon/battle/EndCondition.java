@@ -1,6 +1,6 @@
 package com.pokemon.battle;
 
-import com.pokemon.exception.NoWinnerException;
+
 
 import java.util.Optional;
 
@@ -25,5 +25,9 @@ public class EndCondition {
     public void surrender(Battler battler){
         this.surrender = true;
         this.surrenderer = battler;
+    }
+
+    public Battler getSurrenderer(){
+        return this.surrenderer;
     }
 }

@@ -14,6 +14,11 @@ public class Battler {
     private Inventory inventory;
     private int LastDamageDealt;
 
+    public Battler(String name) {
+        this.name = name;
+        pokemons.add(new Pokemon("Pikachu of " + name));
+    }
+
     public Inventory getInventory() {
         return inventory;
     }
@@ -36,6 +41,9 @@ public class Battler {
 
     public void setPokemons(List<Pokemon> pokemons) {
         this.pokemons = pokemons;
+        if (!pokemons.isEmpty()) {
+            this.activePokemon = pokemons.get(0);
+        }
     }
 
     public Pokemon getActivePokemon() {
@@ -48,5 +56,13 @@ public class Battler {
 
     public String getName() {
         return name;
+    }
+
+    public boolean hasLost() {
+        for (Pokemon pokemon : pokemons ){
+            if (pokemon.getHP() > 0 )
+                return false;
+        }
+        return true;
     }
 }

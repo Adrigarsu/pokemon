@@ -2,16 +2,19 @@ package com.pokemon.action.number;
 
 import com.pokemon.battle.Battle;
 
+import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class Weighted implements NumberInterface {
 
-    private List<WeightedEntry> entries;
+    private List<WeightedEntry> entries = new ArrayList<WeightedEntry>();
+    private WeightedEntry defaultWeightEntry = new WeightedEntry(1.0, 0.5);
     private Random random = new Random();
 
     public Weighted(List<WeightedEntry> entries) {
-        this.entries = entries;
+        entries.add(defaultWeightEntry);
     }
 
     @Override
@@ -27,6 +30,8 @@ public class Weighted implements NumberInterface {
         }
 
         // fallback: return the last of the probabilities do not add 1.0
-        return entries.getLast().getValue();
+        int size = entries.size();
+        WeightedEntry last = entries.get(size - 1);
+        return last.getValue();
     }
 }

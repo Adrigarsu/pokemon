@@ -2,6 +2,7 @@ package com.pokemon.action.move.attempt;
 
 import com.pokemon.action.condition.ConditionInterface;
 import com.pokemon.action.effect.MoveEffectInterface;
+import com.pokemon.action.number.NumberInterface;
 import com.pokemon.battle.Battle;
 
 public class Combo implements AttemptInterface {

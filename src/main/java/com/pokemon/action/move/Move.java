@@ -11,7 +11,8 @@ public class Move implements MoveInterface {
     private String name;
     private Type type;
     private int power;
-    private int pp; //power points
+    private int pp;//power points
+    private int maxPp;
     private int precision;
     private AttemptInterface attempt;
 
@@ -55,6 +56,14 @@ public class Move implements MoveInterface {
         this.pp = pp;
     }
 
+    public int getMaxPp() {
+        return maxPp;
+    }
+
+    public void setMaxPp(int maxPp) {
+        this.maxPp = maxPp;
+    }
+
     public int getPrecision() {
         return precision;
     }
@@ -74,5 +83,15 @@ public class Move implements MoveInterface {
     @Override
     public void execute(Battle battle) {
 
+    }
+
+    @Override
+    public String getMenuPrint() {
+        return toString();
+    }
+
+    @Override
+    public String toString() {
+        return getName() +" ("+this.pp +"/" +this.maxPp+ ") ["+ getType() +"] ";
     }
 }

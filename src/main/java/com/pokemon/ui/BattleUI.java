@@ -4,6 +4,7 @@ import com.pokemon.action.Action;
 import com.pokemon.action.move.Move;
 import com.pokemon.battle.Battle;
 import com.pokemon.battle.Battler;
+import com.pokemon.ui.menu.*;
 
 import java.util.Scanner;
 
@@ -25,7 +26,7 @@ public class BattleUI {
             Action chosen = askPlayerAction();
             // apply action selected
             chosen.execute(battle);
-            //TODO start status battle.checkEndStatus();
+            //TODO end status battle.checkEndStatus();
             // print end status after end effects
             printStatus();
 
@@ -34,18 +35,28 @@ public class BattleUI {
     }
 
     private void printStatus() {
-        //TODO
-        // muestra HP de ambos battlers y demas
+        System.out.println(battle.battleStatusPrint());
+        System.out.println("=================================");
+        System.out.println(battle.battlerInfoPrint(battle.getDefender()));
+        System.out.println(battle.battlerInfoPrint(battle.getAttacker()));
+        System.out.println("=================================");
     }
 
     private Action askPlayerAction() {
-        //TODO
-        // muestra opciones, lee input, devuelve el action
+
         int option = printAccionMenu();
 
+        // by default a move
+        MenuInterface  subMenu = new MoveMenu();
 
+        switch (option){
+            case 1 : break; // already assigned a move submenu
+            case 2 : subMenu = new ObjectUseMenu(); break;
+            case 3 : subMenu = new ChangePokemonMenu(); break;
+            case 4 : subMenu = new EscapeMenu(); break;
+        }
 
-        return new Move();
+        return subMenu.selectSubmenuAction(battle);
 
     }
 
@@ -71,8 +82,10 @@ public class BattleUI {
         Battler winner;
         if (battle.isOver()) {
             winner = battle.getWinner();
-            //TODO pretty print
-            System.out.println("The winner is " + winner.getName());
+
+            System.out.println("----------------------------------------");
+            System.out.println("The winner is " + winner.getName().toUpperCase());
+            System.out.println("----------------------------------------");
         }
         throw new RuntimeException("No winner in printWinner()");
 

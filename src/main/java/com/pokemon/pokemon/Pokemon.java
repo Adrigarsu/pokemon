@@ -22,6 +22,7 @@ public class Pokemon {
     private int exp;
 
     public String getNickname() {
+        if(this.nickname == null) return name;
         return nickname;
     }
 
@@ -231,10 +232,10 @@ public class Pokemon {
     }
 
     public String getMenuPrint() {
-        return this.name + " " + getTypesPrint() + " " + getHPPrint()  ;
+        return this.name + " Lvl:"+ getLevel()+ " " + getTypesPrint() + " " + getHPPrint()  ;
     }
 
-    private String getTypesPrint() {
+    public String getTypesPrint() {
         if(hasSecondaryType()){
             return primaryType.toString() + "-" + secondaryType.toString();
         }
@@ -243,7 +244,7 @@ public class Pokemon {
         }
     }
 
-    private String getHPPrint() {
+    public String getHPPrint() {
         return "( "+ getHP() + "HP/"+ getMaxHP() +"HP )";
     }
 }

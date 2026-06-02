@@ -1,7 +1,11 @@
 package com.pokemon.pokemon.type;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
+
+import static com.pokemon.pokemon.type.Type.*;
+
 
 /**
  * Type effectiveness chart for Generation I.
@@ -20,8 +24,8 @@ public class TypeChart {
 
     static {
         // NORMAL
-        set(Type.NORMAL, Type.ROCK, 0.5);
-        set(Type.NORMAL, Type.GHOST, 0.0);
+        set(Type.NORMAL, ROCK, 0.5);
+        set(Type.NORMAL, GHOST, 0.0);
 
         // FIRE
         set(Type.FIRE, Type.FIRE, 0.5);
@@ -29,7 +33,7 @@ public class TypeChart {
         set(Type.FIRE, Type.GRASS, 2.0);
         set(Type.FIRE, Type.ICE, 2.0);
         set(Type.FIRE, Type.BUG, 2.0);
-        set(Type.FIRE, Type.ROCK, 0.5);
+        set(Type.FIRE, ROCK, 0.5);
         set(Type.FIRE, Type.DRAGON, 0.5);
 
         // WATER
@@ -37,7 +41,7 @@ public class TypeChart {
         set(Type.WATER, Type.WATER, 0.5);
         set(Type.WATER, Type.GRASS, 0.5);
         set(Type.WATER, Type.GROUND, 2.0);
-        set(Type.WATER, Type.ROCK, 2.0);
+        set(Type.WATER, ROCK, 2.0);
         set(Type.WATER, Type.DRAGON, 0.5);
 
         // ELECTRIC
@@ -56,7 +60,7 @@ public class TypeChart {
         set(Type.GRASS, Type.GROUND, 2.0);
         set(Type.GRASS, Type.FLYING, 0.5);
         set(Type.GRASS, Type.BUG, 0.5);
-        set(Type.GRASS, Type.ROCK, 2.0);
+        set(Type.GRASS, ROCK, 2.0);
         set(Type.GRASS, Type.DRAGON, 0.5);
 
         // ICE
@@ -74,16 +78,16 @@ public class TypeChart {
         set(Type.FIGHTING, Type.FLYING, 0.5);
         set(Type.FIGHTING, Type.PSYCHIC, 0.5);
         set(Type.FIGHTING, Type.BUG, 0.5);
-        set(Type.FIGHTING, Type.ROCK, 2.0);
-        set(Type.FIGHTING, Type.GHOST, 0.0);
+        set(Type.FIGHTING, ROCK, 2.0);
+        set(Type.FIGHTING, GHOST, 0.0);
 
         // POISON
         set(Type.POISON, Type.GRASS, 2.0);
         set(Type.POISON, Type.POISON, 0.5);
         set(Type.POISON, Type.GROUND, 0.5);
         set(Type.POISON, Type.BUG, 2.0); // Gen 1 quirk: reversed in Gen 2+
-        set(Type.POISON, Type.ROCK, 0.5);
-        set(Type.POISON, Type.GHOST, 0.5);
+        set(Type.POISON, ROCK, 0.5);
+        set(Type.POISON, GHOST, 0.5);
 
         // GROUND
         set(Type.GROUND, Type.FIRE, 2.0);
@@ -92,20 +96,20 @@ public class TypeChart {
         set(Type.GROUND, Type.POISON, 2.0);
         set(Type.GROUND, Type.FLYING, 0.0);
         set(Type.GROUND, Type.BUG, 0.5);
-        set(Type.GROUND, Type.ROCK, 2.0);
+        set(Type.GROUND, ROCK, 2.0);
 
         // FLYING
         set(Type.FLYING, Type.ELECTRIC, 0.5);
         set(Type.FLYING, Type.GRASS, 2.0);
         set(Type.FLYING, Type.FIGHTING, 2.0);
         set(Type.FLYING, Type.BUG, 2.0);
-        set(Type.FLYING, Type.ROCK, 0.5);
+        set(Type.FLYING, ROCK, 0.5);
 
         // PSYCHIC
         set(Type.PSYCHIC, Type.FIGHTING, 2.0);
         set(Type.PSYCHIC, Type.POISON, 2.0);
         set(Type.PSYCHIC, Type.PSYCHIC, 0.5);
-        set(Type.PSYCHIC, Type.GHOST, 2.0);
+        set(Type.PSYCHIC, GHOST, 2.0);
 
         // BUG
         set(Type.BUG, Type.FIRE, 0.5);
@@ -113,20 +117,20 @@ public class TypeChart {
         set(Type.BUG, Type.FIGHTING, 0.5);
         set(Type.BUG, Type.FLYING, 0.5);
         set(Type.BUG, Type.PSYCHIC, 2.0);
-        set(Type.BUG, Type.GHOST, 0.5);
+        set(Type.BUG, GHOST, 0.5);
 
         // ROCK
-        set(Type.ROCK, Type.FIRE, 2.0);
-        set(Type.ROCK, Type.ICE, 2.0);
-        set(Type.ROCK, Type.FIGHTING, 0.5);
-        set(Type.ROCK, Type.GROUND, 0.5);
-        set(Type.ROCK, Type.FLYING, 2.0);
-        set(Type.ROCK, Type.BUG, 2.0);
+        set(ROCK, Type.FIRE, 2.0);
+        set(ROCK, Type.ICE, 2.0);
+        set(ROCK, Type.FIGHTING, 0.5);
+        set(ROCK, Type.GROUND, 0.5);
+        set(ROCK, Type.FLYING, 2.0);
+        set(ROCK, Type.BUG, 2.0);
 
         // GHOST
-        set(Type.GHOST, Type.NORMAL, 0.0);
-        set(Type.GHOST, Type.PSYCHIC, 2.0);
-        set(Type.GHOST, Type.GHOST, 2.0);
+        set(GHOST, Type.NORMAL, 0.0);
+        set(GHOST, Type.PSYCHIC, 2.0);
+        set(GHOST, GHOST, 2.0);
 
         // DRAGON
         set(Type.DRAGON, Type.DRAGON, 2.0);
@@ -157,6 +161,8 @@ public class TypeChart {
             case NORMAL, FIGHTING, POISON, GROUND, FLYING, BUG, ROCK, GHOST ->
                     MoveCategory.PHYSICAL;
             case FIRE, WATER, ELECTRIC, GRASS, ICE, PSYCHIC, DRAGON -> MoveCategory.SPECIAL;
+            case NONE -> throw new IllegalArgumentException("NONE type has no move category");
         };
+
     }
 }

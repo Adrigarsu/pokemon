@@ -1,6 +1,8 @@
 package com.pokemon.battle;
 
 
+import com.pokemon.pokemon.Pokemon;
+
 public class Battle {
 
     private Battler attacker;
@@ -8,16 +10,14 @@ public class Battle {
 
     private EndCondition endCondition;
 
+    public Battle(Battler attacker, Battler defender) {
+        this.attacker = attacker;
+        this.defender = defender;
+        this.endCondition = new EndCondition();
+    }
 
     public boolean isOver() {
         return endCondition.isOver(attacker, defender);
-    }
-
-
-    public void checkStartStatus() {
-        //TODO
-        // cehck paralysis -> can move ?
-        // check confusion -> hit himself
     }
 
 
@@ -52,5 +52,40 @@ public class Battle {
 
     public void surrender(){
         endCondition.surrender(this.attacker);
+    }
+
+    public String battleStatusPrint() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("-------------------------------------------------\n");
+        sb.append("POKEMONS of ").append(attacker.getName()).append("\n");
+        for (Pokemon pokemon : attacker.getPokemons()){
+            sb.append(pokemon.getMenuPrint());
+            sb.append("\n");
+        }
+        sb.append("\n");
+        sb.append("POKEMONS of ").append(defender.getName()).append("\n");
+        for (Pokemon pokemon : defender.getPokemons()){
+            sb.append(pokemon.getMenuPrint());
+            sb.append("\n");
+        }
+        sb.append("-------------------------------------------------\n");
+
+        return sb.toString();
+    }
+
+
+    public String battlerInfoPrint(Battler battler){
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Opponent :").append(battler.getName().toUpperCase()).append("\n");
+        //Name
+        sb.append(battler.getActivePokemon().getNickname().toUpperCase()).append(" ");
+        //Type
+        sb.append(battler.getActivePokemon().getTypesPrint()).append(" ");
+        //HP
+        sb.append(battler.getActivePokemon().getHPPrint()).append("\n");
+
+        return sb.toString();
     }
 }
