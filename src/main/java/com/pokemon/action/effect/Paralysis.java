@@ -8,8 +8,13 @@ public class Paralysis implements MoveEffectInterface {
 
     private TargetInterface target;
 
+    public Paralysis(TargetInterface target) {
+        this.target = target;
+    }
+
     @Override
     public void apply(Battle battle) {
         target.resolve(battle).getActivePokemon().addStatus(new ParalysisStatus());
+        battle.log(target.resolve(battle).getActivePokemon().getNickname() + " is paralyzed!", Battle.LogCategory.STATUS);
     }
 }

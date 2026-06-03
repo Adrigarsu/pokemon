@@ -1,7 +1,7 @@
 package com.pokemon.battle.inventory;
 
-import com.pokemon.pokemon.Pokemon;
+import com.pokemon.battle.Battle;
 
 public interface Consumible {
-    void consume(Pokemon pokemon);
+    void consume(Battle battle);
 }

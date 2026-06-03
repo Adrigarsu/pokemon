@@ -82,7 +82,11 @@ public class Move implements MoveInterface {
 
     @Override
     public void execute(Battle battle) {
-
+        battle.log(battle.getAttacker().getActivePokemon().getNickname() + " used " + name + "!");
+        if (attempt != null) {
+            attempt.execute(battle);
+        }
+        pp--;
     }
 
     @Override

@@ -13,7 +13,8 @@ public class Escape implements Action {
 
     @Override
     public void execute(Battle battle) {
-
+        battle.log(battle.getAttacker().getName() + " surrendered!", Battle.LogCategory.ESCAPE);
+        battle.surrender();
     }
 
 }

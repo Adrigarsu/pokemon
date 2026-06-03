@@ -18,7 +18,10 @@ public class DirectDamage implements MoveEffectInterface {
     @Override
     public void apply(Battle battle) {
         Pokemon pokemon = target.resolve(battle).getActivePokemon();
-        int newHP = pokemon.getHP() - (int) number.evaluate(battle);
+        int dmg   = (int) number.evaluate(battle);
+        int newHP = Math.max(0, pokemon.getHP() - dmg);
         pokemon.setHP(newHP);
+        battle.log(pokemon.getNickname() + " took " + dmg + " damage! (HP " + newHP + "/" + pokemon.getMaxHP() + ")",
+                Battle.LogCategory.DAMAGE);
     }
 }

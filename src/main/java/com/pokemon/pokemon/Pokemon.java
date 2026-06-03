@@ -46,6 +46,11 @@ public class Pokemon {
     private int individualValues;
     private int effortValues;
 
+    // Stat stages (-6 to +6), reset each battle
+    private int attackStage  = 0;
+    private int defenseStage = 0;
+    private int specialStage = 0;
+
     //Combat info
     private boolean death;
     private List<StatusInterface> statusList = new ArrayList<StatusInterface>();
@@ -199,6 +204,16 @@ public class Pokemon {
         this.primaryType = primaryType;
     }
 
+    public int getAttackStage()  { return attackStage; }
+    public int getDefenseStage() { return defenseStage; }
+    public int getSpecialStage() { return specialStage; }
+
+    public void setAttackStage(int s)  { this.attackStage  = clampStage(s); }
+    public void setDefenseStage(int s) { this.defenseStage = clampStage(s); }
+    public void setSpecialStage(int s) { this.specialStage = clampStage(s); }
+
+    private static int clampStage(int s) { return Math.max(-6, Math.min(6, s)); }
+
     public int getBaseAttack() {
         return attack;
     }
@@ -224,6 +239,14 @@ public class Pokemon {
 
     public void addStatus(StatusInterface status) {
         statusList.add(status);
+    }
+
+    public void clearStatuses() {
+        statusList.clear();
+    }
+
+    public boolean removeStatusOfType(Class<? extends StatusInterface> type) {
+        return statusList.removeIf(type::isInstance);
     }
 
     public List<MoveInterface> getAttacks() {

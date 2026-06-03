@@ -3,12 +3,19 @@ package com.pokemon.battle;
 
 import com.pokemon.pokemon.Pokemon;
 
+import java.util.function.BiConsumer;
+
 public class Battle {
+
+    public enum LogCategory { INFO, DAMAGE, STATUS, STAT, ITEM, SWAP, ESCAPE }
 
     private Battler attacker;
     private Battler defender;
 
     private EndCondition endCondition;
+    private int turn = 1;
+
+    private BiConsumer<String, LogCategory> logger = (s, c) -> {};
 
     public Battle(Battler attacker, Battler defender) {
         this.attacker = attacker;
@@ -52,6 +59,22 @@ public class Battle {
 
     public void surrender(){
         endCondition.surrender(this.attacker);
+    }
+
+    public void log(String message) { logger.accept(message, LogCategory.INFO); }
+
+    public void log(String message, LogCategory category) { logger.accept(message, category); }
+
+    public void setLogger(BiConsumer<String, LogCategory> logger) { this.logger = logger; }
+
+    public int getTurn() { return turn; }
+
+    public void nextTurn() { turn++; }
+
+    public void swapTurns() {
+        Battler temp = attacker;
+        attacker = defender;
+        defender = temp;
     }
 
     public String battleStatusPrint() {

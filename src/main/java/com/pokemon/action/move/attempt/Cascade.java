@@ -10,6 +10,9 @@ public class Cascade implements AttemptInterface{
 
     @Override
     public void execute(Battle battle) {
+        for (AttemptInterface attempt : attempts){
+            attempt.execute(battle);
+        }
 
     }
 }

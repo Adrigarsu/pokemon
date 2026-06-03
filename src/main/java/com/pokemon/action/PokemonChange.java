@@ -13,8 +13,8 @@ public class PokemonChange implements Action{
 
     @Override
     public void execute(Battle battle) {
+        battle.log(battle.getAttacker().getName() + " sent out " + newPokemon.getNickname() + "!", Battle.LogCategory.SWAP);
         battle.getAttacker().setActivePokemon(newPokemon);
-
     }
 
 }
