@@ -1,6 +1,5 @@
 package com.pokemon.pokemon;
 
-import com.pokemon.action.effect.Paralysis;
 import com.pokemon.action.move.MoveInterface;
 import com.pokemon.pokemon.status.StatusInterface;
 import com.pokemon.pokemon.type.Type;
@@ -238,7 +237,21 @@ public class Pokemon {
     }
 
     public void addStatus(StatusInterface status) {
+        if (status.isPrimary() && statusList.stream().anyMatch(StatusInterface::isPrimary)) return;
+        if (hasStatusOfType(status.getClass())) return;
         statusList.add(status);
+    }
+
+    public boolean hasStatusOfType(Class<? extends StatusInterface> type) {
+        return statusList.stream().anyMatch(type::isInstance);
+    }
+
+    public boolean hasAnyPrimaryStatus() {
+        return statusList.stream().anyMatch(StatusInterface::isPrimary);
+    }
+
+    public List<StatusInterface> getStatusList() {
+        return statusList;
     }
 
     public void clearStatuses() {
@@ -247,6 +260,17 @@ public class Pokemon {
 
     public boolean removeStatusOfType(Class<? extends StatusInterface> type) {
         return statusList.removeIf(type::isInstance);
+    }
+
+    public boolean canAttack(com.pokemon.battle.Battle battle) {
+        for (StatusInterface s : new ArrayList<>(statusList)) {
+            if (s.blocksMove(this, battle)) return false;
+        }
+        return true;
+    }
+
+    public void applyEndOfTurn(com.pokemon.battle.Battle battle) {
+        new ArrayList<>(statusList).forEach(s -> s.onEndOfTurn(this, battle));
     }
 
     public List<MoveInterface> getAttacks() {

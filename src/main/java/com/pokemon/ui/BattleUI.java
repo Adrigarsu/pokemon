@@ -2,6 +2,7 @@ package com.pokemon.ui;
 
 import com.pokemon.action.Action;
 import com.pokemon.action.BackAction;
+import com.pokemon.action.move.MoveInterface;
 import com.pokemon.battle.Battle;
 import com.pokemon.battle.Battler;
 import com.pokemon.pokemon.Pokemon;
@@ -18,6 +19,7 @@ public class BattleUI {
     private static final String GREEN  = "[32m";
     private static final String YELLOW = "[33m";
     private static final String PURPLE = "[35m";
+    private static final String GRAY   = "[90m";
     private static final String CYAN   = "[36m";
     private static final String RESET  = "[0m";
 
@@ -34,10 +36,15 @@ public class BattleUI {
                 case ESCAPE -> PURPLE;
                 case STATUS -> CYAN;
                 case STAT   -> CYAN;
+                case DEV    -> GRAY;
                 default     -> "";
             };
-            System.out.println("  " + color + msg + (color.isEmpty() ? "" : RESET));
-            pause(700);
+            if (cat == Battle.LogCategory.DEV) {
+                System.out.println("  " + GRAY + msg + RESET);
+            } else {
+                System.out.println("  " + color + msg + (color.isEmpty() ? "" : RESET));
+                pause(700);
+            }
         });
     }
 
@@ -46,7 +53,10 @@ public class BattleUI {
         while (!battle.isOver()) {
             printTurnHeader();
             Action chosen = askPlayerAction();
-            chosen.execute(battle);
+            boolean blocked = chosen instanceof MoveInterface
+                    && !battle.getAttacker().getActivePokemon().canAttack(battle);
+            if (!blocked) chosen.execute(battle);
+            battle.processEndOfTurnStatuses();
             printPostAction();
             battle.swapTurns();
             battle.nextTurn();

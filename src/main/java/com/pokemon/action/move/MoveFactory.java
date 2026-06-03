@@ -3,6 +3,8 @@ package com.pokemon.action.move;
 import com.pokemon.action.condition.battleCond.HitsTarget;
 import com.pokemon.action.effect.*;
 import com.pokemon.action.move.attempt.Attempt;
+import com.pokemon.pokemon.status.*;
+import com.pokemon.pokemon.status.ParalysisStatus;
 import com.pokemon.action.move.attempt.AttemptInterface;
 import com.pokemon.action.move.attempt.Combo;
 import com.pokemon.action.number.Between;
@@ -46,7 +48,7 @@ public class MoveFactory {
     // 30% paralysis
     public static Move bodySlam() {
         return withSecondaryEffect("Body Slam", Type.NORMAL, 85, 15, 100,
-                30, new Paralysis(DEFENDER));
+                30, new ApplyStatus(DEFENDER, ParalysisStatus::new, "{name} is paralyzed!"));
     }
 
     // multi-hit
@@ -69,10 +71,22 @@ public class MoveFactory {
 
     // Fire
 
-    public static Move ember()        { return damaging("Ember",        Type.FIRE,  40, 25, 100); }
-    public static Move flamethrower() { return damaging("Flamethrower", Type.FIRE,  95, 15, 100); }
-    public static Move fireBlast()    { return damaging("Fire Blast",   Type.FIRE, 120,  5,  85); }
-    public static Move firePunch()    { return damaging("Fire Punch",   Type.FIRE,  75, 15, 100); }
+    public static Move ember() {
+        return withSecondaryEffect("Ember", Type.FIRE, 40, 25, 100,
+                10, new ApplyStatus(DEFENDER, BurnStatus::new, "{name} was burned!"));
+    }
+    public static Move flamethrower() {
+        return withSecondaryEffect("Flamethrower", Type.FIRE, 95, 15, 100,
+                10, new ApplyStatus(DEFENDER, BurnStatus::new, "{name} was burned!"));
+    }
+    public static Move fireBlast() {
+        return withSecondaryEffect("Fire Blast", Type.FIRE, 120, 5, 85,
+                30, new ApplyStatus(DEFENDER, BurnStatus::new, "{name} was burned!"));
+    }
+    public static Move firePunch() {
+        return withSecondaryEffect("Fire Punch", Type.FIRE, 75, 15, 100,
+                10, new ApplyStatus(DEFENDER, BurnStatus::new, "{name} was burned!"));
+    }
     public static Move fireSpin()     { return damaging("Fire Spin",    Type.FIRE,  15, 15,  70); }
 
 
@@ -90,19 +104,19 @@ public class MoveFactory {
 
     public static Move thundershock() {
         return withSecondaryEffect("Thundershock", Type.ELECTRIC, 40, 30, 100,
-                10, new Paralysis(DEFENDER));
+                10, new ApplyStatus(DEFENDER, ParalysisStatus::new, "{name} is paralyzed!"));
     }
     public static Move thunderbolt() {
         return withSecondaryEffect("Thunderbolt", Type.ELECTRIC, 95, 15, 100,
-                10, new Paralysis(DEFENDER));
+                10, new ApplyStatus(DEFENDER, ParalysisStatus::new, "{name} is paralyzed!"));
     }
     public static Move thunder() {
         return withSecondaryEffect("Thunder", Type.ELECTRIC, 120, 10, 70,
-                10, new Paralysis(DEFENDER));
+                10, new ApplyStatus(DEFENDER, ParalysisStatus::new, "{name} is paralyzed!"));
     }
     public static Move thunderpunch() {
         return withSecondaryEffect("Thunderpunch", Type.ELECTRIC, 75, 15, 100,
-                10, new Paralysis(DEFENDER));
+                10, new ApplyStatus(DEFENDER, ParalysisStatus::new, "{name} is paralyzed!"));
     }
 
 
@@ -118,14 +132,26 @@ public class MoveFactory {
 
     // Ice
 
-    public static Move iceBeam()  { return damaging("Ice Beam", Type.ICE,  95, 10, 100); }
-    public static Move blizzard() { return damaging("Blizzard", Type.ICE, 120,  5,  90); }
-    public static Move icePunch() { return damaging("Ice Punch", Type.ICE,  75, 15, 100); }
+    public static Move iceBeam() {
+        return withSecondaryEffect("Ice Beam", Type.ICE, 95, 10, 100,
+                10, new ApplyStatus(DEFENDER, FreezeStatus::new, "{name} was frozen solid!"));
+    }
+    public static Move blizzard() {
+        return withSecondaryEffect("Blizzard", Type.ICE, 120, 5, 90,
+                10, new ApplyStatus(DEFENDER, FreezeStatus::new, "{name} was frozen solid!"));
+    }
+    public static Move icePunch() {
+        return withSecondaryEffect("Ice Punch", Type.ICE, 75, 15, 100,
+                10, new ApplyStatus(DEFENDER, FreezeStatus::new, "{name} was frozen solid!"));
+    }
 
 
     // Psychic
 
-    public static Move psybeam()   { return damaging("Psybeam",   Type.PSYCHIC,  65, 20, 100); }
+    public static Move psybeam() {
+        return withSecondaryEffect("Psybeam", Type.PSYCHIC, 65, 20, 100,
+                10, new ApplyStatus(DEFENDER, ConfusionStatus::new, "{name} became confused!"));
+    }
     public static Move confusion() { return damaging("Confusion",  Type.PSYCHIC,  50, 25, 100); }
 
     // 30% chance to lower opponent's Special by 1
@@ -145,9 +171,18 @@ public class MoveFactory {
 
     // Poison
 
-    public static Move poisonSting() { return damaging("Poison Sting", Type.POISON, 15, 35, 100); }
-    public static Move smog()        { return damaging("Smog",          Type.POISON, 20, 20,  70); }
-    public static Move sludge()      { return damaging("Sludge",        Type.POISON, 65, 20, 100); }
+    public static Move poisonSting() {
+        return withSecondaryEffect("Poison Sting", Type.POISON, 15, 35, 100,
+                20, new ApplyStatus(DEFENDER, PoisonStatus::new, "{name} was poisoned!"));
+    }
+    public static Move smog() {
+        return withSecondaryEffect("Smog", Type.POISON, 20, 20, 70,
+                40, new ApplyStatus(DEFENDER, PoisonStatus::new, "{name} was poisoned!"));
+    }
+    public static Move sludge() {
+        return withSecondaryEffect("Sludge", Type.POISON, 65, 20, 100,
+                30, new ApplyStatus(DEFENDER, PoisonStatus::new, "{name} was poisoned!"));
+    }
 
     // 30% chance to lower opponent's Special by 1
     public static Move acid() {
@@ -200,7 +235,7 @@ public class MoveFactory {
     // 30% paralysis
     public static Move lick() {
         return withSecondaryEffect("Lick", Type.GHOST, 20, 30, 100,
-                30, new Paralysis(DEFENDER));
+                30, new ApplyStatus(DEFENDER, ParalysisStatus::new, "{name} is paralyzed!"));
     }
 
 
@@ -229,24 +264,36 @@ public class MoveFactory {
     // Pure-paralysis status
 
     public static Move thunderWave() {
-        Attempt a = new Attempt(new HitsTarget(100), new Paralysis(DEFENDER), NO_EFFECT, NO_EFFECT);
+        Attempt a = new Attempt(new HitsTarget(100), new ApplyStatus(DEFENDER, ParalysisStatus::new, "{name} is paralyzed!"), NO_EFFECT, NO_EFFECT);
         return build("Thunder Wave", Type.ELECTRIC, 0, 20, 100, a);
     }
     public static Move stunSpore() {
-        Attempt a = new Attempt(new HitsTarget(75), new Paralysis(DEFENDER), NO_EFFECT, NO_EFFECT);
+        Attempt a = new Attempt(new HitsTarget(75), new ApplyStatus(DEFENDER, ParalysisStatus::new, "{name} is paralyzed!"), NO_EFFECT, NO_EFFECT);
         return build("Stun Spore", Type.GRASS, 0, 30, 75, a);
     }
     public static Move glare() {
-        Attempt a = new Attempt(new HitsTarget(75), new Paralysis(DEFENDER), NO_EFFECT, NO_EFFECT);
+        Attempt a = new Attempt(new HitsTarget(75), new ApplyStatus(DEFENDER, ParalysisStatus::new, "{name} is paralyzed!"), NO_EFFECT, NO_EFFECT);
         return build("Glare", Type.NORMAL, 0, 30, 75, a);
     }
 
 
     // Sleep / Confusion (status pending)
 
-    public static Move hypnosis()   { return statusMove("Hypnosis",   Type.PSYCHIC, 20, 60); }
-    public static Move sing()       { return statusMove("Sing",        Type.NORMAL,  15, 55); }
-    public static Move confuseRay() { return statusMove("Confuse Ray", Type.GHOST,   10, 100); }
+    public static Move hypnosis() {
+        Attempt a = new Attempt(new HitsTarget(60),
+                new ApplyStatus(DEFENDER, SleepStatus::new, "{name} fell asleep!"), NO_EFFECT, NO_EFFECT);
+        return build("Hypnosis", Type.PSYCHIC, 0, 20, 60, a);
+    }
+    public static Move sing() {
+        Attempt a = new Attempt(new HitsTarget(55),
+                new ApplyStatus(DEFENDER, SleepStatus::new, "{name} fell asleep!"), NO_EFFECT, NO_EFFECT);
+        return build("Sing", Type.NORMAL, 0, 15, 55, a);
+    }
+    public static Move confuseRay() {
+        Attempt a = new Attempt(new HitsTarget(100),
+                new ApplyStatus(DEFENDER, ConfusionStatus::new, "{name} became confused!"), NO_EFFECT, NO_EFFECT);
+        return build("Confuse Ray", Type.GHOST, 0, 10, 100, a);
+    }
 
 
     // Healing

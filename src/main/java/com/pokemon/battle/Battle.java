@@ -7,7 +7,9 @@ import java.util.function.BiConsumer;
 
 public class Battle {
 
-    public enum LogCategory { INFO, DAMAGE, STATUS, STAT, ITEM, SWAP, ESCAPE }
+    public enum LogCategory { INFO, DAMAGE, STATUS, STAT, ITEM, SWAP, ESCAPE, DEV }
+
+    public static boolean DEV_MODE = true;
 
     private Battler attacker;
     private Battler defender;
@@ -59,6 +61,11 @@ public class Battle {
 
     public void surrender(){
         endCondition.surrender(this.attacker);
+    }
+
+    public void processEndOfTurnStatuses() {
+        attacker.getActivePokemon().applyEndOfTurn(this);
+        defender.getActivePokemon().applyEndOfTurn(this);
     }
 
     public void log(String message) { logger.accept(message, LogCategory.INFO); }
